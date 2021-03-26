@@ -14,6 +14,33 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+//Route::middleware('auth:api')->get('/user', function (Request $request) {
+//    return $request->user();
+//});
+
+Route::group([
+
+    'middleware' => 'api',
+    'prefix' => 'auth',
+    'namespace' => 'App\Http\Controllers\Auth',
+
+], function () {
+
+    Route::any('login', 'AuthController@login');
+
 });
+
+
+Route::group([
+
+    'middleware' => 'api',
+    'prefix' => 'records',
+    'namespace' => 'App\Http\Controllers\Record',
+
+], function () {
+
+    Route::resource('', 'RecordController');
+
+});
+
+

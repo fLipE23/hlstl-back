@@ -3,9 +3,12 @@
 namespace Tests\Unit\Services;
 
 use App\Models\Record;
+use App\Repository\Record\RecordCacheRepository;
 use App\Services\RecordService;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
+use Rap2hpoutre\FastExcel\FastExcel;
 use Tests\TestCase;
 
 
@@ -24,7 +27,6 @@ Class RecordServiceTest extends TestCase
     }
 
 
-
     public function testCreateIntoDatabase()
     {
         $result = $this->service->create('database', [
@@ -33,10 +35,10 @@ Class RecordServiceTest extends TestCase
             'email' => $this->faker->email,
         ]);
 
-        // todo it works, need to be tested
+        $records = Record::all();
 
-        dd($result);
-
+        // record found
+        $this->assertTrue($records->contains($result));
     }
 
     public function testCreateIntoJson()
@@ -66,10 +68,12 @@ Class RecordServiceTest extends TestCase
             'email' => $this->faker->email,
         ]);
 
-        // todo it works, need to be tested
+        $this->assertInstanceOf(Record::class, $result);
 
-        dd($result);
+        $list = (new FastExcel)->import(Storage::disk(config('domain.record.sources.xlsx.disk'))
+                                ->path(config('domain.record.sources.xlsx.filename')));
 
+        $this->assertTrue($list->contains($result->toArray()));
     }
 
     public function testCreateIntoCache()
@@ -80,11 +84,11 @@ Class RecordServiceTest extends TestCase
             'email' => $this->faker->email,
         ]);
 
-        // todo it works, need to be tested
+        $list = Cache::get(RecordCacheRepository::CACHE_DATA_KEY, function () {
+            return collect([]);
+        });
 
-
-        dd($result);
-
+        $this->assertTrue($list->contains($result));
     }
 
 

@@ -1,0 +1,116 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Test project",
+        "contact": {
+            "email": "prcelsus@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/records?source={source}": {
+            "get": {
+                "tags": [
+                    "Records"
+                ],
+                "summary": "Display listing of records",
+                "description": "",
+                "operationId": "App\\Http\\Controllers\\Record\\RecordController::index",
+                "parameters": [
+                    {
+                        "name": "source",
+                        "in": "path",
+                        "description": "Name of source",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns records list",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": [
+                            "*"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/api/records": {
+            "post": {
+                "tags": [
+                    "Records"
+                ],
+                "summary": "Save new record into selected source",
+                "description": "",
+                "operationId": "App\\Http\\Controllers\\Record\\RecordController::store",
+                "requestBody": {
+                    "description": "Record data",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateRecordRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Returns new record",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": [
+                            "*"
+                        ]
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "CreateRecordRequest": {
+                "properties": {
+                    "name": {
+                        "description": "Name",
+                        "type": "string"
+                    },
+                    "email": {
+                        "description": "Email",
+                        "type": "string"
+                    },
+                    "phone": {
+                        "description": "Phone",
+                        "type": "string"
+                    },
+                    "source": {
+                        "description": "Source",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "security": [
+        []
+    ]
+}

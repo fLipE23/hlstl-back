@@ -4,12 +4,7 @@
 namespace App\Repository\Record;
 
 
-use App\Models\Record;
-use App\Repository\Repository;
 use Box\Spout\Common\Exception\IOException;
-use Box\Spout\Common\Exception\UnsupportedTypeException;
-use Box\Spout\Reader\Exception\ReaderNotOpenedException;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Rap2hpoutre\FastExcel\FastExcel;
@@ -17,7 +12,6 @@ use Rap2hpoutre\FastExcel\FastExcel;
 class RecordExcelRepository extends AbstractRecordRepositoryWithCollection
 {
 
-    protected Collection $data;
     protected FastExcel $fastExcel;
     protected string $path;
 
@@ -42,7 +36,6 @@ class RecordExcelRepository extends AbstractRecordRepositoryWithCollection
                 }
                 $this->data = collect([]);
             }
-
         }
     }
 

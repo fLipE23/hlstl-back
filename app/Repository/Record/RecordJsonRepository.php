@@ -3,10 +3,7 @@
 
 namespace App\Repository\Record;
 
-use App\Models\Record;
-use App\Repository\Repository;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 
 class RecordJsonRepository extends AbstractRecordRepositoryWithCollection
